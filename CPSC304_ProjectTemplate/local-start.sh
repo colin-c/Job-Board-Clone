@@ -7,4 +7,4 @@ cd "$(dirname "$0")"
 export DYLD_LIBRARY_PATH=/Users/alexwu/desktop/client:$DYLD_LIBRARY_PATH
 
 # Start Node application
-npm start
+exec node server.js

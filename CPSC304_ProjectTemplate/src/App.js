@@ -17,7 +17,7 @@ const App = () => {
                 <BrowserRouter>
                     <Routes>
                         <Route path='/' element={<Home />} />
-                        <Route path='/login' element={<SignIn />} /> {/* Use the new login page component */}
+                        <Route path='/login' element={<SignIn />} />
                         <Route path='/signup' element={<SignUp />} />
                         <Route path='*' element={<NotFound />} />
                     </Routes>
