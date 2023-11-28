@@ -7,7 +7,7 @@ const DatabaseConnectionStatus = () => {
     const checkDbConnection = async () => {
       try {
         const response = await fetch('/check-db-connection', {
-          method: 'GET'
+          method: 'GET',
         });
 
         const text = await response.text();
@@ -26,7 +26,6 @@ const DatabaseConnectionStatus = () => {
 
   return (
     <div>
-      <p>Fetched Data: {connectionStatus}</p>
       {connectionStatus === null ? (
         <p>Loading...</p>
       ) : connectionStatus === 'connected' ? (

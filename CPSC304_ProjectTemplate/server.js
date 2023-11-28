@@ -1,5 +1,6 @@
 const express = require('express');
 const appController = require('./appController');
+const path = require('path'); // Import the 'path' module
 
 // Load environment variables from .env file
 // Ensure your .env file has the required database credentials.
@@ -10,7 +11,7 @@ const app = express();
 const PORT = envVariables.PORT || 65534;  // Adjust the PORT if needed (e.g., if you encounter a "port already occupied" error)
 
 // Middleware setup
-// app.use(express.static('public'));  // Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'build'))); // Requesting for Files in the 'build' directory (React only)
 app.use(express.json());             // Parse incoming JSON payloads
 
 // If you prefer some other file as default page other than 'index.html',
@@ -30,3 +31,4 @@ app.use('/', appController);
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/`);
 });
+
