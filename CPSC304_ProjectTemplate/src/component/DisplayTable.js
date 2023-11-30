@@ -2,49 +2,50 @@
 import React, { useState, useEffect } from 'react';
 
 const DisplayTable = () => {
-  const [notes, setNotes] = useState([]);
+  const [jobPositions, setJobPositions] = useState([]);
 
   useEffect(() => {
-    // Fetch notes from the backend when the component mounts
-    fetchAndDisplayNotes();
+    // Fetch job positions from the backend when the component mounts
+    fetchAndDisplayJobPositions();
   }, []);
 
-  const fetchAndDisplayNotes = async () => {
+  const fetchAndDisplayJobPositions = async () => {
     try {
       const response = await fetch('/get-notes');
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        setNotes(data);
+        setJobPositions(data);
       } else {
-        console.error('Failed to fetch notes');
+        console.error('Failed to fetch job positions');
         // Handle error, show error message, etc.
       }
     } catch (error) {
-      console.error('An error occurred during note fetch:', error);
+      console.error('An error occurred during job position fetch:', error);
     }
   };
 
   return (
     <div>
-      <h2>Notes</h2>
+      <h2>Job Positions</h2>
       <table>
         <thead>
           <tr>
-            <th>Note ID</th>
-            <th>Title</th>
+            <th>Job Title</th>
             <th>Description</th>
-            <th>User Email</th>
+            <th>Salary</th>
+            <th>Job Board Link</th>
+            <th>Job Posting Link</th>
           </tr>
         </thead>
         <tbody>
-          {notes.map((note, index) => (
+          {jobPositions.map((position, index) => (
             <tr key={index}>
-              {/* Access elements using numeric indices */}
-              <td>{note[0]}</td> {/* NoteID */}
-              <td>{note[1]}</td> {/* Title */}
-              <td>{note[2]}</td> {/* Description */}
-              <td>{note[3]}</td> {/* UserEmail */}
+              <td>{position[0]}</td> {/* JobTitle */}
+              <td>{position[1]}</td> {/* Description */}
+              <td>{position[2]}</td> {/* Salary */}
+              <td>{position[3]}</td> {/* JobBoardLink */}
+              <td>{position[4]}</td> {/* JobPostingLink */}
             </tr>
           ))}
         </tbody>

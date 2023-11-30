@@ -132,6 +132,20 @@ function Navbar() {
 
                     </Box>
 
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        {/* menu desktop */}
+                        <Button
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
+                        >
+                            <Link to="/projection" style={{ color: 'white', textDecoration: 'none' }}>
+                                Projection
+                            </Link>
+                        </Button>
+                    </Box>
+
+
+
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

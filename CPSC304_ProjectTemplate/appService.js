@@ -78,13 +78,13 @@ async function signUp(email, password) {
 }
 
 
-// Function to add a note
-async function addNote(title, description, userEmail) {
+// Function to add a job position
+async function addJobPosition(title, description, salary, jobBoardLink, jobPostingLink) {
   return await withOracleDB(async (connection) => {
-    // Use parameterized query to insert note into the NOTES table
+    // Use parameterized query to insert job position into the JobBoard_PositionPay table
     const result = await connection.execute(
-      `INSERT INTO NOTES (TITLE, DESCRIPTION, USEREMAIL) VALUES (:title, :description, :userEmail)`,
-      [title, description, userEmail],
+      `INSERT INTO JobBoard_PositionPay (JobTitle, Description, Salary, JobBoardLink, JobPostingLink) VALUES (:title, :description, :salary, :jobBoardLink, :jobPostingLink)`,
+      [title, description, salary, jobBoardLink, jobPostingLink],
       { autoCommit: true }
     );
 
@@ -99,17 +99,87 @@ async function addNote(title, description, userEmail) {
 // Function to get table
 async function getNotes() {
   return await withOracleDB(async (connection) => {
-    const result = await connection.execute(`SELECT * FROM NOTES`);
+    const result = await connection.execute(`SELECT * FROM JOBBOARD_POSITIONPAY`);
     return result.rows;
   }).catch(() => {
     return [];
   });
 }
 
+async function getTables() {
+  return await withOracleDB(async (connection) => {
+    const result = await connection.execute(`SELECT table_name FROM user_tables`);
+    return result.rows.map(row => row[0]);
+  }).catch(() => {
+    return [];
+  });
+}
+
+
+// Add this function to get attributes of a specific table
+async function getAttributes(table) {
+  return await withOracleDB(async (connection) => {
+    const result = await connection.execute(`SELECT DISTINCT column_name FROM all_tab_columns WHERE table_name = '${table}'`);
+
+    console.log('Executing query:', result);
+    return result.rows.map(row => row[0]);
+  }).catch((error) => {
+    console.error('Error during attribute fetch:', error);
+    return [];
+  });
+}
+
+async function processProjection(table, attributes) {
+  return await withOracleDB(async (connection) => {
+    // Constructing the SQL query dynamically
+    const sqlQuery = `SELECT ${attributes.join(', ')} FROM ${table}`;
+    console.log('Executing SQL Query:', sqlQuery);
+
+    // Executing the SQL query
+    const result = await connection.execute(sqlQuery);
+
+    // Returning the result
+    return result.rows;
+  }).catch(() => {
+    return [];
+  });
+}
+
+// Function to calculate average salary for a given table
+async function calculateAverageSalary(table) {
+  try {
+    console.log('Table:', table);
+    // Use the withOracleDB function to handle Oracle Database connection
+    return await withOracleDB(async (connection) => {
+      // Execute the SQL query to calculate average salary
+      const result = await connection.execute(`
+        SELECT "JOBTITLE", AVG("SALARY") AS "AverageSalary"
+        FROM "${table}"  -- Ensure that the table name is not empty or contains invalid characters
+        WHERE "SALARY" IS NOT NULL  -- Add a condition to filter out null values
+        GROUP BY "JOBTITLE"
+      `);
+
+      console.log("Service", result)
+      // Return the query results
+      return result.rows;
+    });
+  } catch (error) {
+    // Handle any errors that occur during the query execution
+    console.error('Error during aggregation query execution:', error);
+    throw error; // Re-throw the error to be caught by the calling function or component
+  }
+}
+
+
+
 module.exports = {
     testOracleConnection,
     signIn,
     signUp,
-    addNote,
+    addJobPosition,
     getNotes,
+    getTables,
+    getAttributes,
+    processProjection,
+    calculateAverageSalary,
 };

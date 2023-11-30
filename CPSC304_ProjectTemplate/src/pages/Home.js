@@ -4,6 +4,7 @@ import Header from '../component/Header'
 import NoteList from '../component/NoteList'
 import DatabaseConnectionStatus from '../component/DatabaseConnection'
 import DisplayTable from '../component/DisplayTable'
+import Salary from '../component/Salary'
 
 
 const Home = () => {
@@ -15,6 +16,7 @@ const Home = () => {
             <DatabaseConnectionStatus />
             <NoteList />
             <DisplayTable />
+            <Salary />
         </>
     )
 }

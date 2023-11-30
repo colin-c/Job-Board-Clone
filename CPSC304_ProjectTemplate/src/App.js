@@ -7,6 +7,7 @@ import { theme } from './theme';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import DisplayTable from './component/DisplayTable';
+import Projection from './pages/ProjectionSelector';
 
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
                         <Route path='/signup' element={<SignUp />} />
                         <Route path='*' element={<NotFound />} />
                         <Route path='/display-notes' element={<DisplayTable />} />
+                        <Route path='/projection' element={<Projection />} />
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>
