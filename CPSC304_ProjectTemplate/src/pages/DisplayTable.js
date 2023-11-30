@@ -1,5 +1,4 @@
 // DisplayTable.js
-
 import React, { useState, useEffect } from 'react';
 
 const DisplayTable = () => {
@@ -12,9 +11,10 @@ const DisplayTable = () => {
 
   const fetchAndDisplayNotes = async () => {
     try {
-      const response = await fetch('/get-notes'); // Adjust the endpoint based on your backend
+      const response = await fetch('/get-notes');
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         setNotes(data);
       } else {
         console.error('Failed to fetch notes');
@@ -31,17 +31,20 @@ const DisplayTable = () => {
       <table>
         <thead>
           <tr>
+            <th>Note ID</th>
             <th>Title</th>
             <th>Description</th>
             <th>User Email</th>
           </tr>
         </thead>
         <tbody>
-          {notes.map((note) => (
-            <tr key={note.NOTEID}>
-              <td>{note.TITLE}</td>
-              <td>{note.DESCRIPTION}</td>
-              <td>{note.USEREMAIL}</td>
+          {notes.map((note, index) => (
+            <tr key={index}>
+              {/* Access elements using numeric indices */}
+              <td>{note[0]}</td> {/* NoteID */}
+              <td>{note[1]}</td> {/* Title */}
+              <td>{note[2]}</td> {/* Description */}
+              <td>{note[3]}</td> {/* UserEmail */}
             </tr>
           ))}
         </tbody>
