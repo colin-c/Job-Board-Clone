@@ -6,6 +6,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { theme } from './theme';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import DisplayTable from './pages/DisplayTable';
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
                         <Route path='/login' element={<SignIn />} />
                         <Route path='/signup' element={<SignUp />} />
                         <Route path='*' element={<NotFound />} />
+                        <Route path='/display-notes' element={<DisplayTable />} />
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>

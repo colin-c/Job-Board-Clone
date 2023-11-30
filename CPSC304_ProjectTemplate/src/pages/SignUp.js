@@ -32,33 +32,32 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  const data = new FormData(event.currentTarget);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
 
-  try {
-    const response = await fetch('/api/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: data.get('email'),
-        password: data.get('password'),
-      }),
-    });
+    try {
+      const response = await fetch('/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: data.get('email'),
+          password: data.get('password'),
+        }),
+      });
 
-    // Handle the response, e.g., check for success or errors
-    if (response.ok) {
-      console.log('User successfully registered');
-    } else {
-      console.error('Failed to register user');
+      if (response.ok) {
+        console.log('User successfully registered');
+        window.location.href = "/";
+      } else {
+        console.error('Failed to register user');
+      }
+    } catch (error) {
+      console.error('An error occurred during registration:', error);
     }
-  } catch (error) {
-    console.error('An error occurred during registration:', error);
-  }
-};
-
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -78,7 +77,7 @@ const handleSubmit = async (event) => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} method="POST">
+              <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} method="POST">
             <TextField
               margin="normal"
               required
@@ -118,9 +117,9 @@ const handleSubmit = async (event) => {
                 </Link>
               </Grid>
               <Grid item>
-                {/* Use RouterLink to navigate to the SignUp page */}
-                <Link component={RouterLink} to="/login" variant="body2">
-                  {"Already have an account? Sign In"}
+                {/* Use RouterLink to navigate to the home page */}
+                <Link component={RouterLink} to="/" variant="body2">
+                  {"Go to Home Page"}
                 </Link>
               </Grid>
             </Grid>
