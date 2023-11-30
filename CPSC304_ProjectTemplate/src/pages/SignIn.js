@@ -30,14 +30,35 @@ function Copyright(props) {
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
+
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+
+    try {
+      const response = await fetch('/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: data.get('email'),
+          password: data.get('password'),
+        }),
+      });
+
+      if (response.ok) {
+        console.log('User successfully signed in');
+        // Redirect or perform other actions upon successful sign-in
+      } else {
+        console.error('Failed to sign in');
+        // Handle failed sign-in, show error message, etc.
+      }
+    } catch (error) {
+      console.error('An error occurred during sign-in:', error);
+    }
   };
 
   return (
