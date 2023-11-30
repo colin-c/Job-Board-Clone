@@ -6,7 +6,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { theme } from './theme';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-import DisplayTable from './pages/DisplayTable';
+import DisplayTable from './component/DisplayTable';
 
 
 const App = () => {

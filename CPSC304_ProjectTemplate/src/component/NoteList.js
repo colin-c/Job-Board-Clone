@@ -33,11 +33,6 @@ const AddNote = () => {
     }
   };
 
-  const viewNotes = () => {
-    // Redirect to the "/display-notes" route
-    history('/display-notes');
-  };
-
   return (
     <div>
       <h2>Add New Note</h2>
@@ -51,8 +46,6 @@ const AddNote = () => {
       <input type="text" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
       <br />
       <button onClick={addNote}>Add Note</button>
-      {/* Call viewNotes when the button is clicked */}
-      <button onClick={viewNotes}>View Notes</button>
     </div>
   );
 };
