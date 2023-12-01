@@ -140,5 +140,31 @@ router.post('/execute-aggregation-query', async (req, res) => {
   }
 });
 
+// Endpoint to execute aggregation query with HAVING for salary
+router.post('/execute-having-salary-query', async (req, res) => {
+  const { minSalaryThreshold } = req.body;
+
+  try {
+    const queryResults = await appService.findJobPositionsAboveSalaryThreshold(minSalaryThreshold);
+    res.status(200).json(queryResults);
+  } catch (error) {
+    console.error('Error during HAVING salary query execution:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Endpoint to execute nested aggregation query
+router.post('/execute-nested-aggregation-query', async (req, res) => {
+  try {
+    const { constraint } = req.body;
+    const queryResults = await appService.findTotalJobPositionsByCompanyWithConstraint(constraint);
+    console.log('Controller', queryResults);
+    res.status(200).json(queryResults);
+  } catch (error) {
+    console.error('Error during nested aggregation query execution:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 module.exports = router;

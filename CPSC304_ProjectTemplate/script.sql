@@ -40,6 +40,7 @@ CREATE TABLE Notes (
   PRIMARY KEY (NoteID),
   FOREIGN KEY (UserEmail) REFERENCES Users(Email) ON DELETE CASCADE
 );
+
 CREATE TABLE Company (
   CompanyName VARCHAR(50),
   Website VARCHAR(2000),
@@ -90,13 +91,14 @@ CREATE TABLE JobBoard_PositionCompany (
   PRIMARY KEY (JobBoardLink, JobPostingLink),
   FOREIGN KEY (JobBoardLink) REFERENCES JobBoard(JobBoardLink) ON DELETE CASCADE
 );
+
 CREATE TABLE JobBoard_PositionPay (
   JobTitle VARCHAR(50),
   Description VARCHAR(2000),
   Salary INT CHECK (Salary > 0),
   JobBoardLink VARCHAR(2000),
   JobPostingLink VARCHAR(2000),
-  PRIMARY KEY (JobTitle, JobBoardLink, JobPostingLink),
+  PRIMARY KEY (JobTitle, JobPostingLink),
   FOREIGN KEY (JobPostingLink, JobBoardLink) REFERENCES JobBoard_Position(JobPostingLink, JobBoardLink) ON DELETE CASCADE
 );
 CREATE TABLE JobBoard_PositionBegins (

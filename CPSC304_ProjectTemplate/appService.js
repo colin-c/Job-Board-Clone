@@ -170,6 +170,50 @@ async function calculateAverageSalary(table) {
   }
 }
 
+// Function to find job positions with an average salary above a certain threshold
+async function findJobPositionsAboveSalaryThreshold(minSalaryThreshold) {
+  try {
+    return await withOracleDB(async (connection) => {
+      const result = await connection.execute(`
+        SELECT "JOBTITLE", AVG("SALARY") AS "AverageSalary"
+        FROM "JOBBOARD_POSITIONPAY"
+        GROUP BY "JOBTITLE"
+        HAVING AVG("SALARY") > :minSalaryThreshold
+      `, [minSalaryThreshold]);
+
+      return result.rows;
+    });
+  } catch (error) {
+    console.error('Error during HAVING salary query execution:', error);
+    throw error;
+  }
+}
+
+
+// Find the total number of job positions for each company, subject to the
+// constraint that the company has at least one job position,
+async function findTotalJobPositionsByCompanyWithConstraint(constraint) {
+  try {
+    return await withOracleDB(async (connection) => {
+      const result = await connection.execute(`
+        SELECT "COMPANY", COUNT("JOBPOSTINGLINK") AS "TotalJobPositions"
+        FROM "JOBBOARD_POSITIONCOMPANY"
+        WHERE "COMPANY" IN (
+          SELECT DISTINCT "COMPANY"
+          FROM "JOBBOARD_POSITIONCOMPANY"
+          GROUP BY "COMPANY"
+          HAVING COUNT("JOBPOSTINGLINK") >= :constraint
+        )
+        GROUP BY "COMPANY"
+      `, [constraint]);
+      console.log('Service:', result.rows);
+      return result.rows;
+    });
+  } catch (error) {
+    console.error('Error during nested aggregation query execution:', error);
+    throw error;
+  }
+}
 
 
 module.exports = {
@@ -182,4 +226,6 @@ module.exports = {
     getAttributes,
     processProjection,
     calculateAverageSalary,
+    findJobPositionsAboveSalaryThreshold,
+    findTotalJobPositionsByCompanyWithConstraint,
 };
