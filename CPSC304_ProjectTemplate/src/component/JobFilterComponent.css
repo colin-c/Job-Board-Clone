@@ -1,0 +1,51 @@
+/* JobFilterComponent.css */
+
+.job-filter-container {
+    margin: 20px 20px 40px; /* Updated margin to create more space at the bottom */
+}
+
+/* Additional margin for the section containing "Enter Company Name" */
+.company-section {
+    margin-top: 20px;
+}
+
+input {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+select {
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+button {
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+table {
+    width: 70%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}

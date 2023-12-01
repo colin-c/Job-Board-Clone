@@ -77,33 +77,61 @@ async function signUp(email, password) {
     });
 }
 
-
-// Function to add a job position
-async function addJobPosition(title, description, salary, jobBoardLink, jobPostingLink) {
-  return await withOracleDB(async (connection) => {
-    // Use parameterized query to insert job position into the JobBoard_PositionPay table
-    const result = await connection.execute(
-      `INSERT INTO JobBoard_PositionPay (JobTitle, Description, Salary, JobBoardLink, JobPostingLink) VALUES (:title, :description, :salary, :jobBoardLink, :jobPostingLink)`,
-      [title, description, salary, jobBoardLink, jobPostingLink],
-      { autoCommit: true }
-    );
-
-    // Check if the insertion was successful
-    return result.rowsAffected && result.rowsAffected > 0;
-  }).catch(() => {
-    return false;
-  });
+async function getJobBoard_PositionPay() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`SELECT * FROM JobBoard_PositionPay`);
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
 }
 
+async function addJob(jobTitle, description, salary, jobBoardLink, jobPostingLink) {
+    return await withOracleDB(async (connection) => {
+        // Use parameterized query to insert job into the JobBoard_PositionPay table
+        const result = await connection.execute(
+            `INSERT INTO JobBoard_PositionPay (JobTitle, Description, Salary, JobBoardLink, JobPostingLink) VALUES (:jobTitle, :description, :salary, :jobBoardLink, :jobPostingLink)`,
+            [jobTitle, description, salary, jobBoardLink, jobPostingLink],
+            { autoCommit: true }
+        );
 
-// Function to get table
-async function getNotes() {
-  return await withOracleDB(async (connection) => {
-    const result = await connection.execute(`SELECT * FROM JOBBOARD_POSITIONPAY`);
-    return result.rows;
-  }).catch(() => {
-    return [];
-  });
+        // Check if the insertion was successful
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function deleteJob(jobTitle, jobBoardLink, jobPostingLink) {
+    return await withOracleDB(async (connection) => {
+        // Use parameterized query to delete job from the JobBoard_PositionPay table
+        const result = await connection.execute(
+            `DELETE FROM JobBoard_PositionPay WHERE JobTitle = :jobTitle AND JobBoardLink = :jobBoardLink AND JobPostingLink = :jobPostingLink`,
+            [jobTitle, jobBoardLink, jobPostingLink],
+            { autoCommit: true }
+        );
+
+        // Check if the deletion was successful
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function updateJob(jobTitle, description, salary, jobBoardLink, jobPostingLink) {
+    return await withOracleDB(async (connection) => {
+        // Use named bind variables in the SQL statement
+        const result = await connection.execute(
+            `UPDATE JobBoard_PositionPay SET Description = :description, Salary = :salary WHERE JobTitle = :jobTitle AND JobPostingLink = :jobPostingLink`,
+            { description, salary, jobTitle, jobPostingLink },
+            { autoCommit: true }
+        );
+
+        // Check if the update was successful
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
 }
 
 async function getTables() {
@@ -189,6 +217,38 @@ async function findJobPositionsAboveSalaryThreshold(minSalaryThreshold) {
   }
 }
 
+// Function to get table
+async function getFilteredJobBoardPositionPay(filterConditions) {
+    return await withOracleDB(async (connection) => {
+        let query = "SELECT * FROM JobBoard_PositionPay";
+        const params = [];
+        let whereClauses = [];
+
+        // Extract and remove the logical operator from filterConditions
+        const logicalOperator = filterConditions.logicalOperator || 'AND';
+        delete filterConditions.logicalOperator;
+
+        for (const [key, value] of Object.entries(filterConditions)) {
+            whereClauses.push(`${key} = :${key}`);
+            params.push(value);
+        }
+
+        if (whereClauses.length) {
+            query += " WHERE " + whereClauses.join(` ${logicalOperator} `);
+        }
+
+        try {
+            const result = await connection.execute(query, params);
+            return result.rows;
+        } catch (err) {
+            console.error("Error executing query:", query, "with params:", params, "Error:", err);
+            throw err;
+        }
+    }).catch((err) => {
+        console.error("Error fetching filtered JobBoard_PositionPay data:", err);
+        return [];
+    });
+}
 
 // Find the total number of job positions for each company, subject to the
 // constraint that the company has at least one job position,
@@ -215,13 +275,72 @@ async function findTotalJobPositionsByCompanyWithConstraint(constraint) {
   }
 }
 
+async function getCompaniesAllUsersAppliedTo() {
+    return await withOracleDB(async (connection) => {
+        const query = `
+            SELECT C.CompanyName
+            FROM Company C
+            WHERE NOT EXISTS (
+                SELECT U.Email
+                FROM Users U
+                WHERE NOT EXISTS (
+                    SELECT AUE.UserEmail
+                    FROM ApplicationUserEmail AUE
+                    INNER JOIN ApplicationJobPostingLink AJPL ON AUE.ApplicationID = AJPL.ApplicationID
+                    INNER JOIN JobBoard_Position JP ON AJPL.JobPostingLink = JP.JobPostingLink AND AJPL.JobBoardLink = JP.JobBoardLink
+                    INNER JOIN JobBoard JB ON JP.JobBoardLink = JB.JobBoardLink
+                    WHERE JB.CompanyName = C.CompanyName AND U.Email = AUE.UserEmail
+                )
+            )`;
+
+        const result = await connection.execute(query);
+        return result.rows;
+    }).catch((err) => {
+        console.error("Error executing getCompaniesAllUsersAppliedTo:", err);
+        throw err;
+    });
+}
+
+async function getJobPostingsByCompany(companyName) {
+    return await withOracleDB(async (connection) => {
+        const query = `
+            SELECT
+                JobBoard_Position.JobPostingLink,
+                JobBoard_Position.Deadline,
+                JobBoard.Name AS JobBoardName,
+                Company.CompanyName,
+                Company.Website,
+                Company.Email,
+                Company.Address,
+                Company.PhoneNumber
+            FROM
+                JobBoard_Position
+            JOIN
+                JobBoard ON JobBoard_Position.JobBoardLink = JobBoard.JobBoardLink
+            JOIN
+                Company ON JobBoard.CompanyName = Company.CompanyName
+            WHERE
+                Company.CompanyName = :companyName`;
+
+        const result = await connection.execute(query, [companyName]);
+        return result.rows;
+    }).catch((err) => {
+        console.error("Error executing fetchJobPostingsByCompany:", err);
+        throw err;
+    });
+};
 
 module.exports = {
     testOracleConnection,
     signIn,
     signUp,
-    addJobPosition,
-    getNotes,
+    getJobBoard_PositionPay,
+    addJob,
+    deleteJob,
+    updateJob,
+    getFilteredJobBoardPositionPay,
+    getJobPostingsByCompany,
+    getCompaniesAllUsersAppliedTo,
     getTables,
     getAttributes,
     processProjection,

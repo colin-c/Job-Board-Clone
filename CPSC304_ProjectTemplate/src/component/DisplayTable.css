@@ -1,0 +1,88 @@
+/* DisplayTable.css */
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Set min-height to the full viewport height */
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+    margin-top: 20px;
+}
+
+.job-table {
+    width: 70%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.job-table th,
+.job-table td {
+    border: 1px solid #ddd;
+    padding: 12px; /* Increased padding for better spacing */
+    text-align: left;
+}
+
+.job-table th {
+    background-color: #3498db; /* Changed background color for header */
+    color: white; /* Changed text color for header */
+}
+
+.job-table tbody tr:nth-child(even) {
+    background-color: #ecf0f1; /* Changed background color for even rows */
+}
+
+.refresh-button {
+    margin-left: 10px;
+    padding: 8px 12px; /* Added padding for the refresh button */
+    background-color: #2ecc71; /* Changed background color for the refresh button */
+    color: white; /* Changed text color for the refresh button */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.success-message {
+    color: #2ecc71; /* Changed color for success message */
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Added styles for update form */
+.update-form {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 70%;
+    background-color: #fff; /* Added background color for the update form */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added box shadow for better separation */
+    border-radius: 4px; /* Added border-radius for rounded corners */
+}
+
+.update-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.update-form input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.update-form button {
+    background-color: #3498db; /* Changed background color for the update button */
+    color: white; /* Changed text color for the update button */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px; /* Added margin between delete and update buttons */
+}

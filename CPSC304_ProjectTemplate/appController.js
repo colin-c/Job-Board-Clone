@@ -53,34 +53,78 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// Add Job Position endpoint
-router.post('/add-job-position', async (req, res) => {
-  const { title, description, salary, jobBoardLink, jobPostingLink } = req.body;
+// Add Note endpoint
+router.post('/add-job', async (req, res) => {
+    const { jobTitle, description, salary, jobBoardLink, jobPostingLink } = req.body;
 
-  try {
-    const isAdded = await appService.addJobPosition(title, description, salary, jobBoardLink, jobPostingLink);
+    try {
+        const isAdded = await appService.addJob(jobTitle, description, salary, jobBoardLink, jobPostingLink);
 
-    if (isAdded) {
-      res.status(201).json({ message: 'Job position added successfully' });
-    } else {
-      res.status(500).json({ message: 'Failed to add job position' });
+        if (isAdded) {
+            res.status(201).json({ message: `Job "${jobTitle}" added successfully` });
+        } else {
+            res.status(500).json({ message: `Failed to add job "${jobTitle}"` });
+        }
+    } catch (error) {
+        console.error('An error occurred during job addition:', error);
+        res.status(500).json({ message: 'Failed to add job. Please try again.' });
     }
-  } catch (error) {
-    console.error('An error occurred during job position addition:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
 });
 
 // View Notes endpoint
-router.get('/get-notes', async (req, res) => {
-  try {
-    const notes = await appService.getNotes();
-    res.status(200).json(notes);
-  } catch (error) {
-    console.error('An error occurred during note fetch:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
+router.get('/get-jobs', async (req, res) => {
+    try {
+        const notes = await appService.getJobBoard_PositionPay();
+        res.status(200).json(notes);
+    } catch (error) {
+        console.error('An error occurred during note fetch:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 });
+
+router.post('/delete-job', async (req, res) => {
+    const { jobTitle, jobBoardLink, jobPostingLink } = req.body;
+
+    try {
+        const isDeleted = await appService.deleteJob(jobTitle, jobBoardLink, jobPostingLink);
+
+        if (isDeleted) {
+            res.status(200).json({ message: `Job "${jobTitle}" deleted successfully` });
+        } else {
+            res.status(500).json({ message: `Failed to delete job "${jobTitle}"` });
+        }
+    } catch (error) {
+        console.error('An error occurred during job deletion:', error);
+        res.status(500).json({ message: 'Failed to delete job. Please try again.' });
+    }
+});
+
+router.post('/update-job', async (req, res) => {
+    const { jobTitle, description, salary, jobBoardLink, jobPostingLink } = req.body;
+
+    try {
+        // Ensure that jobTitle and jobPostingLink are present in the request body
+        if (!jobTitle || !jobPostingLink) {
+            const missingParams = [];
+            if (!jobTitle) missingParams.push('jobTitle');
+            if (!jobPostingLink) missingParams.push('jobPostingLink');
+
+            return res.status(400).json({ message: `Missing required parameters: ${missingParams.join(', ')}.` });
+        }
+
+        const isUpdated = await appService.updateJob(jobTitle, description, salary, jobBoardLink, jobPostingLink);
+
+        if (isUpdated) {
+            res.status(200).json({ message: `Job "${jobTitle}" updated successfully for JobPostingLink "${jobPostingLink}"` });
+        } else {
+            res.status(500).json({ message: `Failed to update job "${jobTitle}" for JobPostingLink "${jobPostingLink}"` });
+        }
+    } catch (error) {
+        console.error('An error occurred during job update:', error);
+        res.status(500).json({ message: `Failed to update job for JobPostingLink "${jobPostingLink}". Please try again.` });
+    }
+});
+
 
 // get tables
 router.get('/get-tables', async (req, res) => {
@@ -166,5 +210,37 @@ router.post('/execute-nested-aggregation-query', async (req, res) => {
   }
 });
 
+
+router.get('/fetch-job-postings', async (req, res) => {
+    try {
+        const { companyName } = req.query;
+        const jobPostings = await appService.getJobPostingsByCompany(companyName);
+        res.json({ success: true, data: jobPostings });
+    } catch (err) {
+        console.error("Error fetching job postings:", err);
+        res.status(500).json({ success: false, message: "Failed to fetch job postings" });
+    }
+});
+
+router.get('/filtered-jobboard-positionpay', async (req, res) => {
+    try {
+        const filterConditions = req.query; // All filter conditions
+        const filteredData = await appService.getFilteredJobBoardPositionPay(filterConditions);
+        res.json({ success: true, data: filteredData });
+    } catch (err) {
+        console.error("Error fetching filtered data:", err);
+        res.status(500).json({ success: false, message: "Failed to fetch filtered data" });
+    }
+});
+
+router.get('/companies-all-users-applied', async (req, res) => {
+    try {
+        const companies = await appService.getCompaniesAllUsersAppliedTo();
+        res.json({ success: true, data: companies });
+    } catch (err) {
+        console.error("Error fetching companies all users applied to:", err);
+        res.status(500).json({ success: false, message: "Failed to fetch data" });
+    }
+});
 
 module.exports = router;
