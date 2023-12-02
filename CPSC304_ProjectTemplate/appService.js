@@ -47,8 +47,8 @@ async function testOracleConnection() {
 // TODO
 async function signIn(email, password) {
     return await withOracleDB(async (connection) => {
-        // Implement your logic to authenticate the user
-        // For this example, checking against the in-memory array
+        // Make sure to check
+        // users before sign in
         const user = users.find((user) => user.email === email && user.password === password);
         return !!user; // Return true if the user is found, false otherwise
     }).catch(() => {
@@ -59,8 +59,8 @@ async function signIn(email, password) {
 // Function to insert into Users
 async function signUp(email, password) {
     return await withOracleDB(async (connection) => {
-        // Hash the password before saving it to the database (you should use a proper hashing library)
-        // For simplicity, this example doesn't include actual password hashing.
+        // 
+        // 
         const hashedPassword = password;
 
         // Use parameterized query to insert user into the USERS table
