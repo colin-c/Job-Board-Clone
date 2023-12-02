@@ -1,7 +1,7 @@
 // JobFilterComponent.js
 
 import React, { useState } from 'react';
-import './JobFilterComponent.css';
+import './JobFilterComponent.css'; // Import the specific CSS file
 
 const JobFilterComponent = () => {
     // Handles SELECTION for JobBoard_PositionPay
@@ -69,7 +69,7 @@ const JobFilterComponent = () => {
     };
 
     return (
-        <div className="job-filter-container">
+        <div className="job-filter-container"> {/* Use the specific CSS class */}
             {/* SELECTION */}
             <div>
                 <input

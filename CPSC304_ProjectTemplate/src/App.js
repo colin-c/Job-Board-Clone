@@ -7,11 +7,9 @@ import { theme } from './theme';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import DisplayTable from './component/DisplayTable';
-import Projection from './pages/ProjectionSelector';
-
+import Search from './pages/Search'; // Import the Search.js component
 
 const App = () => {
-
     return (
         <>
             <ThemeProvider theme={theme}>
@@ -21,9 +19,9 @@ const App = () => {
                         <Route path='/' element={<Home />} />
                         <Route path='/login' element={<SignIn />} />
                         <Route path='/signup' element={<SignUp />} />
+                        <Route path='/search' element={<Search />} /> {/* Add this line */}
+                        <Route path='/display-table' element={<DisplayTable />} />
                         <Route path='*' element={<NotFound />} />
-                        <Route path='/display-notes' element={<DisplayTable />} />
-                        <Route path='/projection' element={<Projection />} />
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>
@@ -31,4 +29,4 @@ const App = () => {
     )
 }
 
-export default App
+export default App;

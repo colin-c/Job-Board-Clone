@@ -1,0 +1,91 @@
+/* ProjectionSelector.css */
+
+/* Style for the container */
+.projection-selector-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Style for the heading */
+.projection-selector-container h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+/* Style for the select and label */
+.projection-selector-container label,
+.projection-selector-container select {
+    margin-bottom: 12px;
+    display: block; /* Make each label and select combination appear on a new line */
+}
+
+/* Style for the checkbox and label */
+.projection-selector-container label input {
+    margin-right: 8px;
+}
+
+/* Style for the button */
+.projection-selector-container button {
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Style for the loaded table data */
+.projection-selector-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+.projection-selector-container th,
+.projection-selector-container td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.projection-selector-container th {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Style for the Select Attributes section */
+.projection-selector-container .select-attributes {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.projection-selector-container .select-attributes label {
+    margin-right: 16px;
+    margin-bottom: 8px;
+}
+
+.projection-selector-container .select-attributes input {
+    margin-right: 4px;
+}
+
+.projection-selector-container .select-attributes {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ddd; /* Add a border */
+    padding: 12px; /* Add padding for spacing */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    margin-top: 12px; /* Add some margin at the top */
+}
+
+.projection-selector-container .select-attributes label {
+    margin-right: 16px;
+    margin-bottom: 8px;
+}
+
+.projection-selector-container .select-attributes input {
+    margin-right: 4px;
+}
