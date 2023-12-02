@@ -1,3 +1,5 @@
+
+
 DROP TABLE Users CASCADE CONSTRAINTS;
 DROP TABLE Notes CASCADE CONSTRAINTS;
 DROP TABLE Company CASCADE CONSTRAINTS;
@@ -40,7 +42,6 @@ CREATE TABLE Notes (
   PRIMARY KEY (NoteID),
   FOREIGN KEY (UserEmail) REFERENCES Users(Email) ON DELETE CASCADE
 );
-
 CREATE TABLE Company (
   CompanyName VARCHAR(50),
   Website VARCHAR(2000),
@@ -91,7 +92,6 @@ CREATE TABLE JobBoard_PositionCompany (
   PRIMARY KEY (JobBoardLink, JobPostingLink),
   FOREIGN KEY (JobBoardLink) REFERENCES JobBoard(JobBoardLink) ON DELETE CASCADE
 );
-
 CREATE TABLE JobBoard_PositionPay (
   JobTitle VARCHAR(50),
   Description VARCHAR(2000),
@@ -250,7 +250,15 @@ SELECT 'https://www.microsoft.com', 'https://www.microsoftdev.com', '2023/12/03'
 UNION ALL
 SELECT 'https://www.netflix.com', 'https://www.netflixdev.com', '2023/12/04' FROM dual
 UNION ALL
-SELECT 'https://www.google.com', 'https://www.googledev.com', '2023/12/05' FROM dual;
+SELECT 'https://www.google.com', 'https://www.googledev.com', '2023/12/05' FROM dual
+UNION ALL
+SELECT 'https://www.apple.com', 'https://www.appledev2.com', '2023/12/01' FROM dual
+UNION ALL
+SELECT 'https://www.apple.com', 'https://www.appledev3.com', '2023/12/01' FROM dual
+UNION ALL
+SELECT 'https://www.apple.com', 'https://www.appledev4.com', '2023/12/01' FROM dual
+UNION ALL
+SELECT 'https://www.apple.com', 'https://www.appledev5.com', '2023/12/01' FROM dual;
 
 INSERT INTO JobBoard_PositionDescription (JobBoardLink, JobPostingLink, Description)
 SELECT 'https://www.apple.com', 'https://www.appledev.com', 'something to do 1' FROM dual
@@ -350,7 +358,15 @@ SELECT 3, 'https://www.microsoftdev.com', 'https://www.microsoft.com' FROM dual
 UNION ALL
 SELECT 4, 'https://www.netflixdev.com', 'https://www.netflix.com' FROM dual
 UNION ALL
-SELECT 5, 'https://www.googledev.com', 'https://www.google.com' FROM dual;
+SELECT 5, 'https://www.googledev.com', 'https://www.google.com' FROM dual
+UNION ALL
+SELECT 7, 'https://www.appledev2.com', 'https://www.apple.com' FROM dual
+UNION ALL
+SELECT 8, 'https://www.appledev3.com', 'https://www.apple.com' FROM dual
+UNION ALL
+SELECT 9, 'https://www.appledev4.com', 'https://www.apple.com' FROM dual
+UNION ALL
+SELECT 10, 'https://www.appledev5.com', 'https://www.apple.com' FROM dual;
 
 INSERT INTO ApplicationUserEmail (ApplicationID, UserEmail)
 SELECT 1, 'colin@ubc.ca' FROM dual
@@ -361,7 +377,15 @@ SELECT 3, 'alex@ubc.ca' FROM dual
 UNION ALL
 SELECT 4, 'nathan@ubc.ca' FROM dual
 UNION ALL
-SELECT 5, 'kevin@ubc.ca' FROM dual;
+SELECT 5, 'kevin@ubc.ca' FROM dual
+UNION ALL
+SELECT 7, 'steven@ubc.ca' FROM dual
+UNION ALL
+SELECT 8, 'alex@ubc.ca' FROM dual
+UNION ALL
+SELECT 9, 'nathan@ubc.ca' FROM dual
+UNION ALL
+SELECT 10, 'kevin@ubc.ca' FROM dual;
 
 -- INSERT INTO ApplicationActionItem (AppStatus, ActionItem)
 -- SELECT 'Applied', 'Complete Online Assessment' FROM dual

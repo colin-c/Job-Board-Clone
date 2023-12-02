@@ -1,4 +1,6 @@
-import * as React from 'react';
+// Navbar.js
+
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,8 +17,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 
-const pages = ['Home', 'Log In'];
-
+const pages = ['Home', 'Log In', 'Search.js']; // Add 'Search.js' to the pages array
 
 function Navbar() {
     const { palette } = useTheme();
@@ -26,6 +27,7 @@ function Navbar() {
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -38,11 +40,9 @@ function Navbar() {
         setAnchorElUser(null);
     };
 
-
-
     return (
         <AppBar position="static">
-            <Container >
+            <Container>
                 {/* principal Menu */}
                 <Toolbar disableGutters>
                     <WorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -95,7 +95,11 @@ function Navbar() {
                         >
                             {pages.map((page) => (
                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                                    <Typography textAlign="center">
+                                        <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            {page === 'Search.js' ? 'Search.js' : page}
+                                        </Link>
+                                    </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -121,17 +125,21 @@ function Navbar() {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {/* menu desktop */}
-
                         <Button
                             onClick={handleCloseNavMenu}
                             sx={{ my: 2, color: 'white', display: 'block' }}>
                             <Link to="/" style={{ color: 'white', textDecoration: "none" }}>
-                                Home
+                                Job Posting
                             </Link>
                         </Button>
-
+                        <Button
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block' }}>
+                            <Link to="/search" style={{ color: 'white', textDecoration: "none" }}>
+                                Search
+                            </Link>
+                        </Button>
                     </Box>
-
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -154,23 +162,19 @@ function Navbar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-
                             <MenuItem onClick={handleCloseUserMenu}>
                                 <Typography textAlign="center"><Link style={{ textDecoration: "none", color: palette.primary.main }} to="/admin/dashboard">Dashboard</Link></Typography>
                             </MenuItem>
-
                             <MenuItem onClick={handleCloseUserMenu}>
-                              <Typography textAlign="center">
-                                <Link style={{ textDecoration: "none", color: palette.primary.main }} to="/login">
-                                  Log In
-                                </Link>
-                              </Typography>
+                                <Typography textAlign="center">
+                                    <Link style={{ textDecoration: "none", color: palette.primary.main }} to="/login">
+                                        Log In
+                                    </Link>
+                                </Typography>
                             </MenuItem>
-
                             <MenuItem >
                                 <Typography style={{ textDecoration: "none", color: palette.primary.main }} textAlign="center">Log Out</Typography>
                             </MenuItem>
-
                         </Menu>
                     </Box>
                 </Toolbar>
@@ -178,4 +182,5 @@ function Navbar() {
         </AppBar>
     );
 }
+
 export default Navbar;

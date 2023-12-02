@@ -1,0 +1,113 @@
+/* Apply styles to the Salary component container */
+.Salary {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Style for the heading */
+.Salary h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+/* Style for the label */
+.Salary label {
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* Style for the input and button */
+.Salary select,
+.Salary button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+/* Style for the button */
+.Salary button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Hover effect for the button */
+.Salary button:hover {
+    background-color: #45a049;
+}
+
+/* Style for the heading of the query results */
+.Salary h3 {
+    margin-top: 16px;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Style for spacing between elements within the container */
+.Salary div > div {
+    margin-top: 8px;
+}
+
+/* Apply styles to the individual query result items */
+.Salary div > div > div {
+    margin-top: 4px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Apply styles to specific elements within the query result items */
+.Salary div > div > div > span {
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+/* Style for N/A message */
+.Salary div > div > div > span.na {
+    color: #888;
+}
+
+/* Style for the error message */
+.Salary div > div > div.error {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+/* Style for the result table */
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+.result-table th,
+.result-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.result-table th {
+    background-color: #4caf50;
+    color: white;
+}
+
+.result-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.result-table tbody tr:hover {
+    background-color: #e0e0e0;
+}
