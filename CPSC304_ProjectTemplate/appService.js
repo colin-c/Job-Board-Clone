@@ -145,16 +145,24 @@ async function getTables() {
 
 
 // Add this function to get attributes of a specific table
-async function getAttributes(table) {
-  return await withOracleDB(async (connection) => {
-    const result = await connection.execute(`SELECT DISTINCT column_name FROM all_tab_columns WHERE table_name = '${table}'`);
 
-    console.log('Executing query:', result);
-    return result.rows.map(row => row[0]);
-  }).catch((error) => {
-    console.error('Error during attribute fetch:', error);
-    return [];
-  });
+
+
+async function getAttributes(table) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`
+      SELECT COLUMN_NAME
+      FROM ALL_TAB_COLUMNS
+      WHERE TABLE_NAME = '${table}'
+        AND OWNER = 'ORA_COLINC'
+    `);
+
+        console.log('Executing query:', result);
+        return result.rows.map(row => row[0]);
+    }).catch((error) => {
+        console.error('Error during attribute fetch:', error);
+        return [];
+    });
 }
 
 async function processProjection(table, attributes) {
