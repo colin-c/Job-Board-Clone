@@ -1,6 +1,5 @@
 /* JobPositionAnalysis.css */
 
-/* Apply styles to the JobPositionAnalysis component container */
 .job-position-analysis-container {
     margin: 20px;
     padding: 20px;
@@ -10,20 +9,17 @@
     background-color: #fff;
 }
 
-/* Style for the heading */
 .job-position-analysis-container h2 {
     font-size: 24px;
     margin-bottom: 16px;
     color: #333;
 }
 
-/* Style for the label */
 .job-position-analysis-container label {
     display: block;
     margin-bottom: 12px;
 }
 
-/* Style for the input */
 .job-position-analysis-container input {
     width: 100%;
     padding: 8px;
@@ -31,7 +27,6 @@
     box-sizing: border-box;
 }
 
-/* Style for the button */
 .job-position-analysis-container button {
     background-color: #4caf50;
     color: #fff;
@@ -41,12 +36,10 @@
     cursor: pointer;
 }
 
-/* Hover effect for the button */
 .job-position-analysis-container button:hover {
     background-color: #45a049;
 }
 
-/* Style for the result table */
 .result-table {
     width: 100%;
     border-collapse: collapse;
