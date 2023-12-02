@@ -17,3 +17,8 @@ Open your web browser and go to
 - http://localhost:65534 
 to see your running React app.
 
+
+We can also run to the UBC Ugrad Oracle Server using:
+
+- node server.js
+
